@@ -8,44 +8,51 @@ namespace ConsoleApp32
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
-			var o = new Osoba();
-			var r = new Radnik();
-		
+			List<GeoFigura> figure = new List<GeoFigura>();
+			figure.Add(new Kvadrat { a = 5 });
+			figure.Add(new Pravougaonik { a = 2, b = 4 });
+			figure.Add(new Kvadrat { a = 2 });
+			figure.Add(new Pravougaonik { a = 12, b = 45 });
 
-			Osoba oO = new Osoba();
-			Osoba oR = new Radnik();
-			Osoba oS = new Student();
-
-
-			oO.Foo();
-			oR.Foo();
-
-			Console.WriteLine(oR.GetType());
-
+			foreach (GeoFigura g in figure)
+			{
+				Console.WriteLine(g.Povrsina());
+			}
 			Console.ReadKey();
+
+			IObim oo = new Kvadrat { a = 4};
+			oo.Obim();
+
 		}	
 	}
-
-	class Osoba
+	
+	abstract class GeoFigura 
 	{
-		public string Ime = "Pera";
-		public string Prezime;
-
-
-		public virtual void Foo() => Console.WriteLine("Foo za osobu");
+		public abstract int Povrsina();
 	}
 
-	class Radnik : Osoba
+	public interface IObim
 	{
-		public decimal plata;
-
-		public override void Foo() => Console.WriteLine("Foo za radnika");
+		int Obim();
 	}
 
-	class Student : Osoba
+	class Kvadrat : GeoFigura, IObim
 	{
-		public new void Foo() => Console.WriteLine("Foo za studenta");
+		public int a;
+
+		public override int Povrsina() => a * a;
+		public int Obim() => 4 * a;
 	}
+
+	class Pravougaonik : GeoFigura
+	{
+		public int a, b;
+
+		public override int Povrsina() => a * b;
+		public override int Obim() => 2 * a + 2 * b;
+	}
+
+	
 }
