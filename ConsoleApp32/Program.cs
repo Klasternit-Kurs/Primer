@@ -8,51 +8,35 @@ namespace ConsoleApp32
 {
 	class Program
 	{
+		public delegate void MojTIPdelegata();
+
 		static void Main()
 		{
-			List<GeoFigura> figure = new List<GeoFigura>();
-			figure.Add(new Kvadrat { a = 5 });
-			figure.Add(new Pravougaonik { a = 2, b = 4 });
-			figure.Add(new Kvadrat { a = 2 });
-			figure.Add(new Pravougaonik { a = 12, b = 45 });
+			Nesto n = new Nesto();
 
-			foreach (GeoFigura g in figure)
-			{
-				Console.WriteLine(g.Povrsina());
-			}
+			n.Obrni(true);
+			Console.WriteLine(n.op(3, 4));
+			n.Obrni(false);
+			Console.WriteLine(n.op(3, 4));
 			Console.ReadKey();
-
-			IObim oo = new Kvadrat { a = 4};
-			oo.Obim();
-
 		}	
 	}
-	
-	abstract class GeoFigura 
+
+	class Nesto
 	{
-		public abstract int Povrsina();
+		public delegate int Operacija(int x, int y);
+		public Operacija op;
+
+		public void Obrni(bool o)
+		{
+			if (o)
+				op = Oduzimac;
+			else
+				op = Sabirac;
+		}
+
+		private int Sabirac(int a, int b) => a + b;
+		private int Oduzimac(int a, int b) => a - b;
 	}
-
-	public interface IObim
-	{
-		int Obim();
-	}
-
-	class Kvadrat : GeoFigura, IObim
-	{
-		public int a;
-
-		public override int Povrsina() => a * a;
-		public int Obim() => 4 * a;
-	}
-
-	class Pravougaonik : GeoFigura
-	{
-		public int a, b;
-
-		public override int Povrsina() => a * b;
-		public override int Obim() => 2 * a + 2 * b;
-	}
-
 	
 }
